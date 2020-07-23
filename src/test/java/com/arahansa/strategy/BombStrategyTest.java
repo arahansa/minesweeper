@@ -1,6 +1,7 @@
 package com.arahansa.strategy;
 
 import com.arahansa.boxes.Box;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -9,6 +10,7 @@ class BombStrategyTest {
 
     private Box box = new Box(13, 10);
 
+    @DisplayName("정상적인 위로 이동 경우 ")
     @Test
     void UP_bombStrategy() {
         Box calculrated = BombStrategy.UP.calculrate(box);
@@ -55,6 +57,12 @@ class BombStrategyTest {
     void RIGHT_overflow() {
         Box calculrated = BombStrategy.RIGHT.calculrate(new Box(20, 10));
         assertThat(calculrated).isEqualTo(Box.OUTOFBOX);
+    }
+
+    @Test
+    void UP_LEFT_overflow(){
+        Box calculrate = BombStrategy.UPLEFT.calculrate(new Box(3, 10));
+        System.out.println(calculrate);
     }
 
 }

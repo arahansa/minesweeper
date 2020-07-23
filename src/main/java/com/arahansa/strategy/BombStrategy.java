@@ -4,9 +4,13 @@ import com.arahansa.boxes.Box;
 
 import java.util.function.Function;
 
+/**
+ * 추후 변경될 이름같다.
+ */
 public enum BombStrategy {
     UP(box -> {
         // validation
+        if (box == Box.OUTOFBOX) return box;
         int targetNum = box.getNumber() - box.getnSize();
         if (targetNum < 1) {
             return Box.OUTOFBOX;
@@ -16,6 +20,7 @@ public enum BombStrategy {
     }),
     DOWN(box -> {
         // validation
+        if (box == Box.OUTOFBOX) return box;
         int targetNum = box.getNumber() + box.getnSize();
         if (targetNum > box.getnSize() * box.getnSize()) {
             return Box.OUTOFBOX;
@@ -25,6 +30,7 @@ public enum BombStrategy {
     }),
     LEFT(box -> {
         // validation
+        if (box == Box.OUTOFBOX) return box;
         if (box.getNumber() % box.getnSize() == 1) {
             return Box.OUTOFBOX;
         }
@@ -33,6 +39,7 @@ public enum BombStrategy {
     }),
     RIGHT(box -> {
         // validation
+        if (box == Box.OUTOFBOX) return box;
         if (box.getNumber() % box.getnSize() == 0) {
             return Box.OUTOFBOX;
         }
@@ -50,7 +57,7 @@ public enum BombStrategy {
         strategy = bombStrategy;
     }
 
-    public Box calculrate(Box b) {
-        return this.strategy.apply(b);
+    public Box calculrate(Box box) {
+        return this.strategy.apply(box);
     }
 }

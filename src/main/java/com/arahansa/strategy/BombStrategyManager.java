@@ -3,24 +3,30 @@ package com.arahansa.strategy;
 import com.arahansa.boxes.Box;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class BombStrategyManager {
 
-    private List<BombStrategy> strategies = new ArrayList<>();
+    private Set<BombStrategy> strategies = new HashSet<>();
 
-    public void addStrategy(BombStrategy strategy) {
-        this.strategies.add(strategy);
+
+    public BombStrategyManager(Set<BombStrategy> strategies) {
+        this.strategies = strategies;
     }
 
-    public List<Box> calculrate(Box box) {
-        List<Box> result = new ArrayList<>();
-        for (BombStrategy s : strategies) {
-            Box cal = s.calculrate(box);
-            if (s.calculrate(box) != Box.OUTOFBOX) {
-                result.add(cal);
-            }
+    public void addStrategy(BombStrategy... strategies) {
+        for(BombStrategy strategy : strategies){
+            this.strategies.add(strategy);
         }
-        return result;
+    }
+
+    public List<Box> calculrate(final Box box) {
+        return strategies.stream()
+                .map(strategy -> strategy.calculrate(box))
+                .filter(res -> res != Box.OUTOFBOX)
+                .collect(Collectors.toList());
     }
 }
